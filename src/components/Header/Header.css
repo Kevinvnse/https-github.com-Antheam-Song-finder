@@ -1,0 +1,185 @@
+.header {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.logo {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.logo:hover {
+  color: #8b6f47;
+}
+
+.logo-icon {
+  font-size: 24px;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-button:hover {
+  color: #8b6f47;
+}
+
+.nav-button.active {
+  color: #8b6f47;
+}
+
+.cart-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.cart-button:hover {
+  border-color: #8b6f47;
+  background-color: #fafafa;
+}
+
+.cart-button.active {
+  border-color: #8b6f47;
+  background-color: #f0e8e0;
+}
+
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: #8b6f47;
+  color: white;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-email {
+  font-size: 13px;
+  color: #666;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logout-btn {
+  padding: 8px 14px;
+  background-color: #f0f0f0;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #e8e8e8;
+  border-color: #d0d0d0;
+  color: #1a1a1a;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    height: 60px;
+    padding: 0 16px;
+  }
+
+  .logo {
+    font-size: 18px;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    font-size: 20px;
+  }
+
+  .nav {
+    gap: 16px;
+  }
+
+  .user-email {
+    display: none;
+  }
+
+  .logout-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    height: 56px;
+  }
+
+  .logo span {
+    display: none;
+  }
+
+  .nav-button span {
+    display: none;
+  }
+
+  .nav-button {
+    padding: 8px;
+  }
+
+  .cart-button {
+    padding: 4px 8px;
+  }
+
+  .logout-btn {
+    padding: 6px 8px;
+  }
+}

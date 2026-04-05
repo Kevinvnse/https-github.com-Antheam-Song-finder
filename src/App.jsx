@@ -1,56 +1,71 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { useAuth } from './context/AuthContext';
+import { useCart } from './context/CartContext';
+import Login from './components/Auth/Login';
+import SignUp from './components/Auth/SignUp';
+import Header from './components/Header/Header';
+import PerfumeCatalog from './components/Catalog/PerfumeCatalog';
+import Cart from './components/Cart/Cart';
+import Checkout from './components/Checkout/Checkout';
+import './App.css';
 
-import "./App.css";
-import SearchBar from "./components/SearchBar/SearchBar";
-import { getFilm } from "./util/Omdb";
-import { getYoutubeLink } from "./util/Youtube";
-import { makeCall } from "./util/Spotify";
-import SearchResults from "./components/SearchBar/SearchResults/SearchResults";
-import Film from "./components/SearchBar/Film/Film";
+export default function App() {
+  const { user, loading } = useAuth();
+  const { cart } = useCart();
+  const [currentPage, setCurrentPage] = useState('catalog');
+  const [authMode, setAuthMode] = useState('login');
 
-function App() {
-  const [soundtracks, setSoundtracks] = useState([]);
-  const [film, setFilm] = useState({});
-
-  const searchYoutube = (name, artist) => {
-    getYoutubeLink(name, artist);
-  };
-
-  const searchSpotify = (search) => {
-    console.log(search);
-    makeCall(search).then((soundtracks) => {
-      setSoundtracks(soundtracks);
-    });
-  };
-
-  const searchOmdb = (search) => {
-    getFilm(search).then((filmDetail) => {
-      console.log(filmDetail);
-      setFilm(filmDetail);
-    });
-    console.log(film);
-  };
-  return (
-    <>
-      <div>
-        <h1>Get That Song</h1>
-        {
-          <div className="App">
-            <SearchBar searchSpotify={searchSpotify} searchOmdb={searchOmdb} />
-          </div>
-        }
-        <div className="App-playlist">
-          <SearchResults
-            soundtracks={soundtracks}
-            youtubeLink={searchYoutube}
-          />
-          <div>
-            <Film film={film} />
-          </div>
-        </div>
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">Loading...</div>
       </div>
-    </>
+    );
+  }
+
+  if (!user) {
+    return (
+      <>
+        {authMode === 'login' ? (
+          <Login
+            onLoginSuccess={() => setCurrentPage('catalog')}
+            onSwitchToSignUp={() => setAuthMode('signup')}
+          />
+        ) : (
+          <SignUp
+            onSignUpSuccess={() => setAuthMode('login')}
+            onSwitchToLogin={() => setAuthMode('login')}
+          />
+        )}
+      </>
+    );
+  }
+
+  const handleNavigation = (page) => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <div className="app">
+      <Header
+        cartCount={cart.length}
+        onNavigation={handleNavigation}
+        user={user}
+        currentPage={currentPage}
+      />
+
+      <main className="main-content">
+        {currentPage === 'catalog' && <PerfumeCatalog />}
+        {currentPage === 'cart' && (
+          <Cart onCheckout={() => setCurrentPage('checkout')} />
+        )}
+        {currentPage === 'checkout' && (
+          <Checkout
+            onCheckoutComplete={() => setCurrentPage('catalog')}
+            onBack={() => setCurrentPage('cart')}
+          />
+        )}
+      </main>
+    </div>
   );
 }
-
-export default App;
